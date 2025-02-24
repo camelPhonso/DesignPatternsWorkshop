@@ -57,9 +57,9 @@ public class PurchaseService
         _invoker.Redo();
     }
 
-    public void ApplyDiscount(IDiscountStrategy discount)
+    public void ApplyDiscount(IPurchaseCommand command)
     {
-        _purchase.SetDiscountStrategy(discount);
+        _invoker.ExecuteCommand(command);
     }
 
     public double CalculateTotal()

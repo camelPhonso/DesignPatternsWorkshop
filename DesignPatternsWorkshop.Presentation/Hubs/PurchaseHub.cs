@@ -1,4 +1,5 @@
-﻿using DesignPatternsWorkshop.Application.DTOs;
+﻿using DesignPatternsWorkshop.Application.Commands;
+using DesignPatternsWorkshop.Application.DTOs;
 using DesignPatternsWorkshop.Application.Strategies;
 using DesignPatternsWorkshop.Infrastructure.Factories;
 using DesignPatternsWorkshop.Infrastructure.Services;
@@ -49,7 +50,8 @@ public class PurchaseHub : Hub
     public async Task AddDiscount(string discountType, double value)
     {
         var discountStrategy = _factory.CreateDiscountStrategy(discountType, value);
-        _service.ApplyDiscount(discountStrategy);
+        var discountCommand = new AddDiscountCommand(_service.GetPurchase(), discountStrategy);
+        _service.ApplyDiscount(discountCommand);
         await Clients.All.SendAsync("UpdatePurchase");
     }
 }

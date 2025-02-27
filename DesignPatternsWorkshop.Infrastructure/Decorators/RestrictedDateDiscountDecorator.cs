@@ -15,7 +15,7 @@ public class RestrictedDateDiscountDecorator : IDiscountStrategy
     {
         _strategy = strategy;
         _validDate = validDate;
-        Name = strategy.Name;
+        Name = "Date specific discount";
     }
     #endregion
 

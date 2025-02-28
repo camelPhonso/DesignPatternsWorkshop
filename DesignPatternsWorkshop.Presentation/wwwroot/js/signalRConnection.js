@@ -27,6 +27,14 @@ connection.on("UpdatePurchase", function () {
     .catch(error => console.error(error))
 })
 
+document.addEventListener("keydown", event => {
+    if (!event.ctrlKey) return;
+
+    if (event.key === "ArrowLeft") return connection.invoke("Undo");
+    if (event.key === "ArrowRight") return connection.invoke("Redo");
+    if (event.key === "ArrowUp") return connection.invoke("AddProduct", { Name: 'Oat milk', Price: 2, Quantity: 1 });
+});
+
 window.addProduct = addProduct
 window.removeProduct = removeProduct
 window.undoLast = undoLast

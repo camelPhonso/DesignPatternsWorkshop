@@ -1,11 +1,12 @@
 ﻿using DesignPatternsWorkshop.Application.Strategies;
 using DesignPatternsWorkshop.Infrastructure.Strategies;
+using DesignPatternsWorkshop.Domain.Result;
 
 namespace DesignPatternsWorkshop.Infrastructure.Factories;
 
 public class DiscountStrategyFactory
 {
-    public IDiscountStrategy CreateDiscountStrategy(string discountStrategyName, double value)
+    public Result<IDiscountStrategy, string> CreateDiscountStrategy(string discountStrategyName, double value)
     {
         switch (discountStrategyName)
         {
@@ -16,7 +17,7 @@ public class DiscountStrategyFactory
             case "bundle":
                 return new BundleDiscountStrategy(value);
             default:
-                throw new ArgumentException("Invalid discount strategy identifier");
+                return "Invalid discount strategy identifier";
         }
     }
 }

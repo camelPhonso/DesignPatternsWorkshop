@@ -27,6 +27,17 @@ connection.on("UpdatePurchase", function () {
     .catch(error => console.error(error))
 })
 
+connection.on("CommunicateError", function (errorString) {
+    fetch(`Home/ShowError?error=${errorString}`)
+        .then(response => response.text())
+        .then(html => {
+            (document.getElementById("errorContainer").innerHTML = html);
+            setTimeout(() => (document.getElementById("errorContainer").innerHTML = ""), 1000)
+        }
+      )
+      .catch(error => console.error(error));
+})
+
 window.addProduct = addProduct
 window.removeProduct = removeProduct
 window.undoLast = undoLast

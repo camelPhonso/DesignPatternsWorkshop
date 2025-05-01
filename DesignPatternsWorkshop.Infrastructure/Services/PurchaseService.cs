@@ -3,6 +3,7 @@ using DesignPatternsWorkshop.Application.DTOs;
 using DesignPatternsWorkshop.Application.Strategies;
 using DesignPatternsWorkshop.Domain.Models;
 using DesignPatternsWorkshop.Infrastructure.Commands;
+using DesignPatternsWorkshop.Domain.Result;
 
 namespace DesignPatternsWorkshop.Infrastructure.Services;
 

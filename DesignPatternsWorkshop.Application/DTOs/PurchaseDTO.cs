@@ -9,6 +9,7 @@ public record PurchaseDTO
     public int Id { get; set; }
     public List<ProductDTO> Products { get; set; }
     public IDiscountStrategy Discount { get; set; } = new NoDiscountStrategy();
+    public string ErrorMessage { get; set; } = string.Empty;
     #endregion
 
     #region constructor

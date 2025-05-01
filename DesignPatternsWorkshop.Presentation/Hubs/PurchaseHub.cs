@@ -49,7 +49,11 @@ public class PurchaseHub : Hub
     public async Task AddDiscount(string discountType, double value)
     {
         var discountStrategy = _factory.CreateDiscountStrategy(discountType, value);
-        _service.ApplyDiscount(discountStrategy);
-        await Clients.All.SendAsync("UpdatePurchase");
+        await discountStrategy.Match<Task>(async strategy =>
+              {
+                _service.ApplyDiscount(strategy);
+                await Clients.All.SendAsync("UpdatePurchase");
+              }, 
+              async error => await Clients.All.SendAsync("CommunicateError", error));
     }
 }

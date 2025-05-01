@@ -62,5 +62,17 @@ public class HomeController : Controller
             return BadRequest(ex.Message);
         }
     }
+
+    public IActionResult ShowError(string error)
+    {
+        try
+        {
+            return PartialView("_ErrorMessage", new PurchaseErrorMessageDTO(error));
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     #endregion
 }

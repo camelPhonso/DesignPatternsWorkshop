@@ -24,11 +24,16 @@
     <button OnClick="addDiscount('percentage', 15)">15%</button>
     <button OnClick="addDiscount('fixed', 5)">£5</button>
     <button OnClick="addDiscount('bundle', 2)">£2 off every £10</button>
+    <button onclick="addDiscount('fake', 78)">Discontinued Discount - don't use</button>
 </div>
 
 <h2>Products in Purchase:</h2>
 <div id="purchaseContainer">
     @await Html.PartialAsync("_ProductList", Model.Products)
+</div>
+
+<div id="errorContainer">
+    @await Html.PartialAsync("_ErrorMessage", new PurchaseErrorMessageDTO(""))
 </div>
 
 <div id="purchaseTotalDisplay">

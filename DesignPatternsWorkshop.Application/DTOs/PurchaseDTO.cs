@@ -1,14 +1,17 @@
-﻿using DesignPatternsWorkshop.Application.Strategies;
+﻿using System.Net.Mail;
+using DesignPatternsWorkshop.Application.Observer;
+using DesignPatternsWorkshop.Application.Strategies;
 using DesignPatternsWorkshop.Domain.Strategies;
 
 namespace DesignPatternsWorkshop.Application.DTOs;
 
-public record PurchaseDTO
+public record PurchaseDTO : ISubject
 {
     #region properties
     public int Id { get; set; }
     public List<ProductDTO> Products { get; set; }
     public IDiscountStrategy Discount { get; set; } = new NoDiscountStrategy();
+    private List<IObserver> _observers = new();
     #endregion
 
     #region constructor
@@ -38,6 +41,12 @@ public record PurchaseDTO
         var baseTotal = Products.Sum(p => p.Price);
         return Discount.ApplyDiscount(baseTotal);
     }
+
+    public void Attach(IObserver observer) => _observers.Add(observer);
+
+    public void Detach(IObserver observer) => _observers.Remove(observer);
+
+    public void Notify() => _observers.ForEach(observer => observer.Update(this));
 
     #endregion
 }

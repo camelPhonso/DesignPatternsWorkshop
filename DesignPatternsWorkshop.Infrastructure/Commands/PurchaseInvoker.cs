@@ -1,8 +1,12 @@
 ﻿using DesignPatternsWorkshop.Application.Commands;
+using DesignPatternsWorkshop.Application.DTOs;
+using DesignPatternsWorkshop.Application.Observer;
+using DesignPatternsWorkshop.Application.Strategies;
+using DesignPatternsWorkshop.Infrastructure.Factories;
 
 namespace DesignPatternsWorkshop.Infrastructure.Commands;
 
-public class PurchaseInvoker
+public class PurchaseInvoker : IObserver
 {
     #region properties
     private readonly Stack<IPurchaseCommand> _undoStack = new();
@@ -43,6 +47,21 @@ public class PurchaseInvoker
         var command = _redoStack.Pop();
         command.Execute();
         _undoStack.Push(command);
+    }
+
+    public void Update(PurchaseDTO purchase)
+    {
+        if(purchase.Products.Count % 5 == 0)
+        {
+             int predicate = purchase.Products.Count / 5;
+            List<ProductDTO> products = purchase.Products.OrderBy(product => product.Price).Take(predicate).ToList();
+            double totalDiscount = products.Sum(product => product.Price);
+
+            var factory = new DiscountStrategyFactory();
+            IDiscountStrategy itemDiscount = factory.CreateDiscountStrategy("fixed", totalDiscount);
+
+            purchase.SetDiscountStrategy(itemDiscount);
+        }
     }
     #endregion
 }

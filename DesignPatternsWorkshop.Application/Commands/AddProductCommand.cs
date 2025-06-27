@@ -18,8 +18,15 @@ public record AddProductCommand : IPurchaseCommand
     #endregion
 
     #region methods
-    public void Execute() => _purchase.Products.Add(_product);
-
-    public void Revert() => _purchase.Products.Remove(_product);
+    public void Execute()
+    {
+        _purchase.Products.Add(_product);
+        _purchase.Notify();
+    }
+    public void Revert()
+    {
+        _purchase.Products.Remove(_product);
+        _purchase.Notify();
+    }
     #endregion
 }

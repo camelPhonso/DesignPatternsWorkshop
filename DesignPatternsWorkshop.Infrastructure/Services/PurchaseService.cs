@@ -18,6 +18,7 @@ public class PurchaseService
     {
         _purchase = new PurchaseDTO(new Random().Next(), new List<ProductDTO>());
         _invoker = new PurchaseInvoker();
+        _purchase.Attach(_invoker);
     }
     #endregion
 
